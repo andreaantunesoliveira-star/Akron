@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akron | Seu próximo trabalho começa aqui</title>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #17233d;
+      --surface-light: #1d2d4c;
+      --blue: #3b82f6;
+      --purple: #7c3aed;
+      --text: #f8fafc;
+      --muted: #a9b6ca;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      width: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 6%;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .beta {
+      margin-left: 6px;
+      padding: 3px 8px;
+      border: 1px solid rgba(59, 130, 246, 0.6);
+      border-radius: 20px;
+      color: #b5ccff;
+      font-size: 0.6rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.87rem;
+    }
+
+    .nav a {
+      transition: color 0.3s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text);
+    }
+
+    .menu {
+      display: none;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 105px 6%;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 45px;
+      min-height: 100vh;
+      padding-top: 145px;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: #94baff;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.7rem, 6vw, 5.5rem);
+      line-height: 1.02;
+      letter-spacing: -3px;
+    }
+
+    .hero h1 span {
+      color: transparent;
+      background: linear-gradient(90deg, #82aaff, #c084fc);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .cursor {
+      color: #a78bfa;
+      animation: blink 1s infinite;
+    }
+
+    .hero-text {
+      max-width: 560px;
+      margin: 25px 0 30px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 21px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .primary {
+      background: linear-gradient(100deg, var(--blue), var(--purple));
+      box-shadow: 0 0 28px rgba(59, 130, 246, 0.3);
+    }
+
+    .secondary {
+      color: #dbe5f8;
+    }
+
+    .dashboard {
+      padding: 19px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(145deg, #1b3156, #121d33);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+      transform: rotate(2deg);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .job-preview {
+      margin-top: 10px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .job-preview strong {
+      display: block;
+    }
+
+    .job-preview small {
+      color: var(--muted);
+    }
+
+    .job-preview-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      color: #a9c4ff;
+      font-size: 0.73rem;
+    }
+
+    .job-preview-footer button {
+      padding: 7px 9px;
+      border: 0;
+      border-radius: 7px;
+      background: #284777;
+      color: #e4edff;
+    }
+
+    .title {
+      margin-bottom: 18px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+
+    .title span {
+      color: #a18dff;
+    }
+
+    .description {
+      max-width: 650px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+      margin-top: 38px;
+    }
+
+    .card {
+      padding: 23px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(18, 32, 58, 0.67);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(130, 167, 255, 0.55);
+      background: var(--surface-light);
+    }
+
+    .icon {
+      margin-bottom: 12px;
+      font-size: 1.7rem;
+    }
+
+    .card h3 {
+      margin-bottom: 7px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+        .jobs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .job-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 7px 0;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #b5ccff;
+      font-size: 0.7rem;
+    }
+
+    .pay {
+      color: #8de5b8 !important;
+    }
+
+    .job-card .button {
+      padding: 8px 12px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    .stats {
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: #a9c6ff;
+      font-size: 2rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .quote::before {
+      display: block;
+      margin-bottom: 13px;
+      color: #86a8ff;
+      content: "“";
+      font-size: 4rem;
+      line-height: 0.7;
+    }
+
+    .avatar {
+      display: inline-block;
+      width: 38px;
+      height: 38px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      vertical-align: middle;
+    }
+
+    .quote small {
+      color: var(--muted);
+    }
+
+    .faq {
+      max-width: 780px;
+      margin: 35px auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .question {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 18px 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .answer {
+      max-height: 0;
+      overflow: hidden;
+      color: var(--muted);
+      transition: 0.35s ease;
+    }
+
+    .faq-item.open .answer {
+      max-height: 100px;
+      padding-bottom: 17px;
+    }
+
+    .question span {
+      transition: 0.3s;
+    }
+
+    .faq-item.open .question span {
+      transform: rotate(45deg);
+    }
+
+    .phone {
+      width: 215px;
+      margin: 0 auto 28px;
+      padding: 10px;
+      border: 7px solid #2c4165;
+      border-radius: 28px;
+      background: #0b1324;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .phone-screen {
+      min-height: 270px;
+      padding: 17px 11px;
+      border-radius: 17px;
+      background: linear-gradient(150deg, #17325d, #121a32);
+    }
+
+    .phone-screen h3 {
+      margin: 23px 0 15px;
+    }
+
+    .mini {
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      font-size: 0.7rem;
+    }
+
+    .testimonials {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cta {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(130deg, #172c54, #241747);
+      box-shadow: 0 0 55px rgba(59, 130, 246, 0.13);
+      text-align: center;
+    }
+
+    .cta p {
+      max-width: 510px;
+      margin: 14px auto 25px;
+      color: var(--muted);
+    }
+
+    .footer {
+      padding: 30px 6%;
+      border-top: 1px solid var(--border);
+      color: #8d9ab1;
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 19px;
+      margin-bottom: 13px;
+      color: #b9caf1;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: 0.7s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes float {
+      50% {
+        transform: rotate(-1deg) translateY(-8px);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .menu {
+        display: block;
+      }
+
+      .nav {
+        position: absolute;
+        top: 68px;
+        left: 6%;
+        right: 6%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #12203c;
+      }
+
+      .nav.open {
+        display: flex;
+      }
+
+      .nav a {
+        padding: 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 125px;
+      }
+
+      .dashboard {
+        order: -1;
+        transform: none;
+      }
+
+      .grid,
+      .jobs,
+      .stats,
+      .testimonials {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 82px 6%;
+      }
+
+      .job-card {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .job-card .button {
+        width: 100%;
+      }
+
+      .cta {
+        padding: 25px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header class="header">
+    <a class="logo" href="#inicio">
+      akron <b class="beta">BETA</b>
+    </a>
+
+    <button class="menu" id="menu" aria-label="Abrir menu">
+      ☰
+    </button>
+
+    <nav class="nav" id="nav">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#vagas">Vagas</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#faq">FAQ</a>
+      <a class="button primary" href="#criar-conta">Criar conta</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section hero" id="inicio">
+      <div class="reveal">
+        <p class="eyebrow">OPORTUNIDADES SEM LIMITES</p>
+
+        <h1>
+          <span id="typing"></span>
+          <i class="cursor">|</i>
+        </h1>
+
+        <p class="hero-text">
+          O Akron conecta suas habilidades às oportunidades certas.
+        </p>
+
+        <div class="actions">
+          <a class="button primary" href="#criar-conta">
+            Começar agora
+          </a>
+
+          <a class="button secondary" href="#vagas">
+            Explorar vagas
+          </a>
+        </div>
+      </div>
+
+      <div class="dashboard reveal">
+        <div class="dashboard-header">
+          <span>akron / oportunidades</span>
+          <span>● online</span>
+        </div>
+
+        <div class="job-preview">
+          <strong>Desenvolvedor Front-End</strong>
+          <small>Remoto · Intermediário</small>
+
+          <div class="job-preview-footer">
+            <span>R$ 3.500 — 5.000</span>
+            <button class="vaga">Ver vaga</button>
+          </div>
+        </div>
+
+        <div class="job-preview">
+          <strong>Designer</strong>
+          <small>Remoto · Júnior</small>
+
+          <div class="job-preview-footer">
+            <span>R$ 2.000 — 3.200</span>
+            <button class="vaga">Ver vaga</button>
+          </div>
+        </div>
+
+        <div class="job-preview">
+          <strong>Redator</strong>
+          <small>Flexível · Júnior</small>
+
+          <div class="job-preview-footer">
+            <span>R$ 1.500 — 2.500</span>
+            <button class="vaga">Ver vaga</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-funciona">
+      <p class="eyebrow">SIMPLES PARA COMEÇAR</p>
+
+      <h2 class="title">
+        Do talento ao projeto em
+        <span>três passos.</span>
+      </h2>
+
+      <div class="grid">
+        <article class="card reveal">
+          <div class="icon">⌕</div>
+          <h3>Descubra</h3>
+          <p>
+            Encontre oportunidades alinhadas às suas habilidades e objetivos.
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon">▤</div>
+          <h3>Candidate-se</h3>
+          <p>
+            Apresente seu trabalho e envie propostas com confiança.
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <div class="icon">♛</div>
+          <h3>Conquiste clientes</h3>
+          <p>
+            Construa relações e transforme oportunidades em resultados.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="vagas">
+      <p class="eyebrow">DASHBOARD DEMONSTRATIVO</p>
+
+      <h2 class="title">
+        Encontre o trabalho que combina com
+        <span>você.</span>
+      </h2>
+
+      <div class="grid jobs">
+        <article class="card job-card reveal">
+          <div>
+            <h3>Desenvolvedor Front-End</h3>
+            <span class="tag">Intermediário</span>
+            <p class="pay">R$ 3.500 — 5.000</p>
+          </div>
+          <button class="button secondary vaga">Ver vaga</button>
+        </article>
+
+        <article class="card job-card reveal">
+          <div>
+            <h3>Designer</h3>
+            <span class="tag">Júnior</span>
+            <p class="pay">R$ 2.000 — 3.200</p>
+          </div>
+          <button class="button secondary vaga">Ver vaga</button>
+        </article>
+
+        <article class="card job-card reveal">
+          <div>
+            <h3>Redator</h3>
+            <span class="tag">Júnior</span>
+            <p class="pay">R$ 1.500 — 2.500</p>
+          </div>
+          <button class="button secondary vaga">Ver vaga</button>
+        </article>
+
+        <article class="card job-card reveal">
+          <div>
+            <h3>Assistente Virtual</h3>
+            <span class="tag">Iniciante</span>
+            <p class="pay">R$ 1.200 — 2.400</p>
+          </div>
+          <button class="button secondary vaga">Ver vaga</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid stats">
+        <div class="card stat reveal">
+          <strong data-count="5000">0+</strong>
+          <span>oportunidades</span>
+        </div>
+
+        <div class="card stat reveal">
+          <strong data-count="1200">0</strong>
+          <span>usuários</span>
+        </div>
+
+        <div class="card stat reveal">
+          <strong data-count="98">0%</strong>
+          <span>satisfação</span>
+        </div>
+
+        <div class="card stat reveal">
+          <strong data-count="24">0h</strong>
+          <span>novas vagas</span>
+        </div>
+      </div>
+    </section>
+        <section class="section" id="depoimentos">
+      <p class="eyebrow">HISTÓRIAS DA COMUNIDADE</p>
+
+      <h2 class="title">
+        Quem encontra espaço para
+        <span>crescer.</span>
+      </h2>
+
+      <div class="grid testimonials">
+        <article class="card quote reveal">
+          <p>
+            O Akron me ajudou a encontrar projetos que combinam com o que eu sei fazer.
+          </p>
+
+          <p>
+            <i class="avatar"></i>
+            <small>
+              Marina Costa<br>
+              Designer
+            </small>
+          </p>
+        </article>
+
+        <article class="card quote reveal">
+          <p>
+            Encontrei uma plataforma simples para começar minha jornada freelancer.
+          </p>
+
+          <p>
+            <i class="avatar"></i>
+            <small>
+              Lucas Almeida<br>
+              Redator
+            </small>
+          </p>
+        </article>
+
+        <article class="card quote reveal">
+          <p>
+            As oportunidades são claras e o processo é muito fácil.
+          </p>
+
+          <p>
+            <i class="avatar"></i>
+            <small>
+              Rafaela Souza<br>
+              Desenvolvedora
+            </small>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <p class="eyebrow">PERGUNTAS FREQUENTES</p>
+
+      <h2 class="title">
+        Tudo simples e
+        <span>transparente.</span>
+      </h2>
+
+      <div class="faq">
+        <div class="faq-item">
+          <button class="question">
+            É gratuito?
+            <span>＋</span>
+          </button>
+
+          <div class="answer">
+            O Akron é um projeto fictício criado para demonstrar uma plataforma de oportunidades.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="question">
+            Posso usar sem experiência?
+            <span>＋</span>
+          </button>
+
+          <div class="answer">
+            Sim. A ideia é conectar iniciantes e profissionais às oportunidades compatíveis.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="question">
+            Como encontro vagas?
+            <span>＋</span>
+          </button>
+
+          <div class="answer">
+            Você explora as vagas, confere detalhes e escolhe as alinhadas ao seu perfil.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="question">
+            Preciso pagar?
+            <span>＋</span>
+          </button>
+
+          <div class="answer">
+            Não há pagamentos reais nesta demonstração.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta" id="criar-conta">
+      <div class="phone reveal">
+        <div class="phone-screen">
+          <span>akron</span>
+
+          <h3>Olá, Andreia 👋</h3>
+
+          <div class="mini">
+            Nova vaga compatível<br>
+            <b>Front-End Júnior</b>
+          </div>
+
+          <div class="mini">
+            Seu perfil está 82% completo
+          </div>
+        </div>
+      </div>
+
+      <h2 class="title">
+        Seu próximo capítulo começa
+        <span>agora.</span>
+      </h2>
+
+      <p>
+        Crie seu perfil, mostre suas habilidades e encontre novas possibilidades.
+      </p>
+
+      <a class="button primary" href="#" id="create">
+        Criar conta
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">akron</a>
+      <a href="#">GitHub</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Política de Privacidade</a>
+      <a href="#">Termos de Uso</a>
+    </div>
+
+    <p>
+      Projeto fictício desenvolvido para portfólio usando HTML, CSS e JavaScript.
+    </p>
+  </footer>
+
+  <script>
+    const menu = document.querySelector("#menu");
+    const nav = document.querySelector("#nav");
+
+    menu.addEventListener("click", () => {
+      nav.classList.toggle("open");
+    });
+
+    document.querySelectorAll(".nav a").forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("open");
+      });
+    });
+
+    const phrase = "Seu próximo trabalho começa aqui.";
+    const typing = document.querySelector("#typing");
+    let letter = 0;
+
+    function typeText() {
+      if (letter <= phrase.length) {
+        typing.textContent = phrase.slice(0, letter);
+        letter++;
+        setTimeout(typeText, 65);
+      }
+    }
+
+    typeText();
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    document.querySelectorAll(".reveal").forEach((item) => {
+      revealObserver.observe(item);
+    });
+
+    const statistics = document.querySelectorAll("[data-count]");
+
+    const statsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || entry.target.dataset.done) {
+            return;
+          }
+
+          entry.target.dataset.done = "true";
+
+          const target = Number(entry.target.dataset.count);
+          const original = entry.target.textContent;
+          const suffix = original.includes("%")
+            ? "%"
+            : original.includes("h")
+              ? "h"
+              : "+";
+
+          let value = 0;
+
+          function animateNumber() {
+            value = Math.min(value + Math.ceil(target / 45), target);
+            entry.target.textContent = value + suffix;
+
+            if (value < target) {
+              requestAnimationFrame(animateNumber);
+            }
+          }
+
+          animateNumber();
+        });
+      },
+      {
+        threshold: 0.7
+      }
+    );
+
+    statistics.forEach((statistic) => {
+      statsObserver.observe(statistic);
+    });
+
+    document.querySelectorAll(".question").forEach((question) => {
+      question.addEventListener("click", () => {
+        question.parentElement.classList.toggle("open");
+      });
+    });
+
+    document.querySelectorAll(".vaga").forEach((button) => {
+      button.addEventListener("click", () => {
+        alert("Demonstração: esta vaga é fictícia.");
+      });
+    });
+
+    document.querySelector("#create").addEventListener("click", (event) => {
+      event.preventDefault();
+      alert("Demonstração: cadastro fictício. Obrigada por visitar o Akron!");
+    });
+
+    const progress = document.querySelector("#progress");
+
+    window.addEventListener("scroll", () => {
+      const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progressValue = pageHeight
+        ? (window.scrollY / pageHeight) * 100
+        : 0;
+
+      progress.style.width = progressValue + "%";
+    });
+
+    const sections = document.querySelectorAll("main section[id]");
+    const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+
+    const activeSectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((link) => {
+              link.classList.toggle(
+                "active",
+                link.getAttribute("href") === "#" + entry.target.id
+              );
+            });
+          }
+        });
+      },
+      {
+        rootMargin: "-40% 0px -50%"
+      }
+    );
+
+    sections.forEach((section) => {
+      activeSectionObserver.observe(section);
+    });
+  </script>
+</body>
+</html>
